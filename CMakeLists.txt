@@ -13,6 +13,7 @@ add_executable(Wolfram_Automata WA_main.cpp
 
 set(executables Wolfram_Automata)
 
+
 foreach(executable IN LISTS executables)
     target_include_directories(${executable}
             PUBLIC ${PROJECT_SOURCE_DIR}/sfml/include)
