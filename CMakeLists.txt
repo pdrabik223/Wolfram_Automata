@@ -4,9 +4,11 @@ project(Wolfram_Automata)
 set(CMAKE_CXX_STANDARD 14)
 
 set(automata_dir Automata/wolfram_automata.h Automata/wolframs_automata.cpp)
+
 set(sfml_dir sfml_window/color_scheme.h sfml_window/color_scheme.cpp
         sfml_window/window.h sfml_window/window.cpp
-        )
+        utility/coord.h utility/coord.cpp)
+
 add_executable(Wolfram_Automata WA_main.cpp
         ${automata_dir}
         ${sfml_dir})
