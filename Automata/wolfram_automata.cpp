@@ -5,9 +5,11 @@
 #include "wolfram_automata.h"
 #include <iostream>
 
-AutomataInfo::AutomataInfo(int rule) {
+AutomataInfo::AutomataInfo(int rule) { SetRule(rule); }
+void AutomataInfo::SetRule(int rule) {
   if (rule > 255)
     throw "invalid rule";
+
   DecimalToBinary(rule);
   rule_dec = rule;
 }
@@ -50,4 +52,13 @@ void Slice::FillRandom(const float &random_infill) {
       d = ON;
     else
       d = OFF;
+}
+void Slice::Fill(State filler) {
+  for (auto &d : data_) {
+    d = filler;
+  }
+}
+void Slice::SetWidth(unsigned int width) {
+  width_ = width;
+  data_.resize(width);
 }

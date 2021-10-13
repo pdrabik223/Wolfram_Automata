@@ -3,7 +3,7 @@
 //
 
 #include "Automata/wolfram_automata.h"
-#include "sfml_window/settings_window.h"
+#include "settings.h"
 #include "sfml_window/window.h"
 #include <iostream>
 int main() {
@@ -26,22 +26,4 @@ int main() {
 }
 
 
-void MainLoop(){
-    // Set screen width
-    // Set screen height
 
-    // set slice width
-    // fill random %procenteage
-    // fill On
-    // fill Off
-    // set %position
-
-    // Run Automata
-
-    // Help
-
-    // display settings
-
-    // display info
-
-};

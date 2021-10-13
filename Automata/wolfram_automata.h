@@ -14,6 +14,7 @@ enum State{
 };
 struct AutomataInfo {
   AutomataInfo(int rule);
+  void SetRule(int rule);
 
   enum class BoundaryConditions { INHERITANCE, LOOP_AROUND };
   int rule_dec;
@@ -48,6 +49,7 @@ public:
     for(int i = 0 ;i < width;i++)
       data_.push_back(OFF);
   };
+  void SetWidth(unsigned int width);
   Slice(const Slice &other) = default;
   Slice &operator=(const Slice &other) = default;
   Slice GenerateSuccessor(const AutomataInfo &rule);
@@ -56,6 +58,7 @@ public:
   State operator[](unsigned position) const { return data_[position]; }
 
   void FillRandom(const float &random_infill);
+  void Fill(State filler);
 
 private:
 protected:

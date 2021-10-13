@@ -3,7 +3,8 @@ project(Wolfram_Automata)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(automata_dir Automata/wolfram_automata.h Automata/wolfram_automata.cpp)
+set(automata_dir Automata/wolfram_automata.h Automata/wolfram_automata.cpp
+        settings.h settings.cpp)
 
 
 set(sfml_dir
@@ -11,7 +12,6 @@ set(sfml_dir
         sfml_window/coord.h sfml_window/coord.cpp
         sfml_window/color_scheme.h sfml_window/color_scheme.cpp
         sfml_window/slicer.h sfml_window/slicer.cpp
-#        sfml_window/settings_window.h sfml_window/settings_window.cpp
        )
 
 add_executable(Wolfram_Automata WA_main.cpp
