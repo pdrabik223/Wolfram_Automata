@@ -5,16 +5,17 @@
 #include "window.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/ContextSettings.hpp>
+#include <iostream>
+
 
 void Window::MainLoop() {
   sf::ContextSettings settings;
   settings.antialiasingLevel = 8;
 
   sf::RenderWindow window(sf::VideoMode(width_, height_), "Wolfram's Automata",
-                          sf::Style::Fullscreen, settings);
+                          sf::Style::Default, settings);
   window.clear(sf::Color::White);
   window.setPosition(sf::Vector2i(position_.x, position_.y));
-  std::this_thread::sleep_for(std::chrono::milliseconds(500));
   sf::Clock clock;
 
   while (window.isOpen()) {
@@ -35,16 +36,19 @@ void Window::MainLoop() {
           window.close();
         }
       }
+
+      //      std::cout<<clock.getElapsedTime().asMilliseconds()<<"ms \n";
+      //      std::this_thread::sleep_for(std::chrono::milliseconds(16 -
+      //      clock.getElapsedTime().asMilliseconds())); clock.restart();
+    }
+    if (GetQueueSize() != 0) {
+      PopFrame().DrawToWindow(window, no_frame_++);
+      window.display();
     }
     //
     //    if (clock.getElapsedTime().asMilliseconds() < 150)
     //      continue;
     //    clock.restart();
-
-    if (GetQueueSize() != 0) {
-      PopFrame().DrawToWindow(window, no_frame_++);
-      window.display();
-    }
   }
 }
 

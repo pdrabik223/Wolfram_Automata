@@ -16,20 +16,21 @@ class Window {
 public:
   Window() = delete;
   Window(int width, int height);
+  ///
+  /// \param position
+  /// \param width
+  /// \param height
   Window(const Coord &position, int width, int height);
   Window(const Window &other);
   Window &operator=(const Window &other);
-  ;
   Slicer PopFrame();
   void PushFrame(const Slicer &new_frame);
 
   int GetQueueSize();
 
-  void SetWindowLabel(const std::string &label);
-
   /// main window loop
   void MainLoop();
-  ~Window() {
+;  ~Window() {
     window_thread_->join();
     delete window_thread_;
   }

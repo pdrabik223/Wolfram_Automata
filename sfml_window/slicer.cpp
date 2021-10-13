@@ -16,7 +16,7 @@ void Slicer::DrawToWindow(sf::RenderWindow &window, unsigned int no_frame) {
     if (slice_[i] == ON)
       cell.setFillColor(sf::Color(252,64,7));
     else
-      cell.setFillColor(sf::Color::White);
+      cell.setFillColor(sf::Color(195,195,195));
     window.draw(cell);
   }
 }
