@@ -60,6 +60,8 @@ protected:
   unsigned width_;
   std::vector<State> data_;
 };
+
+
 // todo make iterator for slice class
 static void ConsoleDisplay(const Slice &slice) {
   for (int i = 0; i < slice.GetWidth(); i++)

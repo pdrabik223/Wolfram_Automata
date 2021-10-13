@@ -8,13 +8,15 @@
 int main() {
   AutomataInfo first(90);
   DisplayRule(first);
-  Slice slice(50);
-  slice[25] = ON;
+  Slice slice(80);
+  slice[40] = ON;
 
   for (int i = 0; i < 40; i++) {
     ConsoleDisplay(slice);
     slice.GenerateSuccessor(first);
   }
+
+
 
   system("pause");
   return 0;
