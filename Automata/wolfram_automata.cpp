@@ -6,13 +6,12 @@
 #include <iostream>
 
 AutomataInfo::AutomataInfo(int rule) {
-  if (rule > 127)
+  if (rule > 255)
     throw "invalid rule";
   DecimalToBinary(rule);
   rule_dec = rule;
 }
 void AutomataInfo::DecimalToBinary(int n) {
-
 
   rule_matrix[0][0][0] = (State)(bool)(n bitand 1);
   rule_matrix[0][0][1] = (State)(bool)(n bitand 2);
@@ -35,7 +34,7 @@ Slice Slice::GenerateSuccessor(const AutomataInfo &rule) {
   case AutomataInfo::BoundaryConditions::LOOP_AROUND:
     copy_data[0] = rule.ApplyRule(data_.back(), data_[0], data_[1]);
     copy_data.back() =
-        rule.ApplyRule(data_[width_-2], data_.back(), data_[0]);
+        rule.ApplyRule(data_[width_ - 2], data_.back(), data_[0]);
     break;
   }
 
@@ -44,4 +43,11 @@ Slice Slice::GenerateSuccessor(const AutomataInfo &rule) {
 
   data_ = copy_data;
   return *this;
+}
+void Slice::FillRandom(const float &random_infill) {
+  for (auto &d : data_)
+    if (rand() % 100 < random_infill)
+      d = ON;
+    else
+      d = OFF;
 }

@@ -55,6 +55,8 @@ public:
   State &operator[](unsigned position) { return data_[position]; }
   State operator[](unsigned position) const { return data_[position]; }
 
+  void FillRandom(const float &random_infill);
+
 private:
 protected:
   unsigned width_;
