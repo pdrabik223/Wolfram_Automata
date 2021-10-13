@@ -14,18 +14,18 @@ AutomataInfo::AutomataInfo(int rule) {
 void AutomataInfo::DecimalToBinary(int n) {
 
 
-  rule_matrix[0][0][0] = (uint8_t)(bool)(n bitand 1);
-  rule_matrix[0][0][1] = (uint8_t)(bool)(n bitand 2);
-  rule_matrix[0][1][0] = (uint8_t)(bool)(n bitand 4);
-  rule_matrix[0][1][1] = (uint8_t)(bool)(n bitand 8);
-  rule_matrix[1][0][0] = (uint8_t)(bool)(n bitand 16);
-  rule_matrix[1][0][1] = (uint8_t)(bool)(n bitand 32);
-  rule_matrix[1][1][0] = (uint8_t)(bool)(n bitand 64);
-  rule_matrix[1][1][1] = (uint8_t)(bool)(n bitand 128);
+  rule_matrix[0][0][0] = (State)(bool)(n bitand 1);
+  rule_matrix[0][0][1] = (State)(bool)(n bitand 2);
+  rule_matrix[0][1][0] = (State)(bool)(n bitand 4);
+  rule_matrix[0][1][1] = (State)(bool)(n bitand 8);
+  rule_matrix[1][0][0] = (State)(bool)(n bitand 16);
+  rule_matrix[1][0][1] = (State)(bool)(n bitand 32);
+  rule_matrix[1][1][0] = (State)(bool)(n bitand 64);
+  rule_matrix[1][1][1] = (State)(bool)(n bitand 128);
 }
 
 Slice Slice::GenerateSuccessor(const AutomataInfo &rule) {
-  std::vector<uint8_t> copy_data(width_);
+  std::vector<State> copy_data(width_);
   // edges
   switch (rule.boundary_conditions) {
   case AutomataInfo::BoundaryConditions::INHERITANCE:

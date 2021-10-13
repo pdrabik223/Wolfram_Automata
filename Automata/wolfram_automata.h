@@ -7,16 +7,21 @@
 #include <array>
 #include <ciso646>
 #include <vector>
+
+enum State{
+  OFF,
+  ON
+};
 struct AutomataInfo {
   AutomataInfo(int rule);
 
   enum class BoundaryConditions { INHERITANCE, LOOP_AROUND };
   int rule_dec;
-  std::array<std::array<std::array<uint8_t, 2>, 2>, 2> rule_matrix;
+  std::array<std::array<std::array<State, 2>, 2>, 2> rule_matrix;
   BoundaryConditions boundary_conditions = BoundaryConditions::LOOP_AROUND;
 
-  uint8_t ApplyRule(uint8_t a, uint8_t x, uint8_t b) const {
-    return rule_matrix[a][x][b];
+  State ApplyRule(State a, State x, State b) const {
+    return rule_matrix[(int)a][(int)x][(int)b];
   };
   void DecimalToBinary(int n);
   int ComputeClass() const {return 0;};
@@ -35,24 +40,25 @@ struct AutomataInfo {
 
 class Slice {
 public:
+
   Slice(unsigned width) : width_(width) {
     if (width < 3)
       throw "your size is to small";
     data_.reserve(width);
     for(int i = 0 ;i < width;i++)
-      data_.push_back(0);
+      data_.push_back(OFF);
   };
   Slice(const Slice &other) = default;
   Slice &operator=(const Slice &other) = default;
   Slice GenerateSuccessor(const AutomataInfo &rule);
   unsigned int GetWidth() const { return width_; }
-  uint8_t &operator[](unsigned position) { return data_[position]; }
-  uint8_t operator[](unsigned position) const { return data_[position]; }
+  State &operator[](unsigned position) { return data_[position]; }
+  State operator[](unsigned position) const { return data_[position]; }
 
 private:
 protected:
   unsigned width_;
-  std::vector<uint8_t> data_;
+  std::vector<State> data_;
 };
 // todo make iterator for slice class
 static void ConsoleDisplay(const Slice &slice) {

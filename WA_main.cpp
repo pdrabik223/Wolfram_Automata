@@ -8,8 +8,8 @@
 int main() {
   AutomataInfo first(90);
   DisplayRule(first);
-  Slice slice(10);
-  slice[5] = 1;
+  Slice slice(50);
+  slice[25] = ON;
 
   for (int i = 0; i < 40; i++) {
     ConsoleDisplay(slice);
