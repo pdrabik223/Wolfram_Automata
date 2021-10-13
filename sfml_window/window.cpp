@@ -8,14 +8,13 @@
 
 void Window::MainLoop() {
   sf::ContextSettings settings;
-  settings.antialiasingLevel = 10;
+  settings.antialiasingLevel = 8;
 
-  sf::RenderWindow window(sf::VideoMode(width_, height_), "CoA",
-                          sf::Style::None, settings);
-
+  sf::RenderWindow window(sf::VideoMode(width_, height_), "Wolfram's Automata",
+                          sf::Style::Fullscreen, settings);
+  window.clear(sf::Color::White);
   window.setPosition(sf::Vector2i(position_.x, position_.y));
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
-  // window.display();
   sf::Clock clock;
 
   while (window.isOpen()) {
@@ -27,9 +26,9 @@ void Window::MainLoop() {
         window.close();
       else if (event_.type == sf::Event::KeyPressed) {
         if (event_.key.code == sf::Keyboard::Space) {
-
           for (int i = 0; i < 10; i++) {
-            if (GetQueueSize() < 1) break;
+            if (GetQueueSize() < 1)
+              break;
             PopFrame();
           }
         } else if (event_.key.code == sf::Keyboard::Escape) {
@@ -37,34 +36,38 @@ void Window::MainLoop() {
         }
       }
     }
-
-    //    if(clock.getElapsedTime().asMilliseconds()<150) continue;
+    //
+    //    if (clock.getElapsedTime().asMilliseconds() < 150)
+    //      continue;
     //    clock.restart();
 
     if (GetQueueSize() != 0) {
-      PopFrame().DrawToWindow(window);
+      PopFrame().DrawToWindow(window, no_frame_++);
       window.display();
     }
   }
 }
 
-Window::Window(int width, int height) : height_(height), width_(width), position_(0, 0) {}
-Window::Window(const Coord &position, int width, int height) : height_(height), width_(width), position_(position) {
+Window::Window(int width, int height)
+    : height_(height), width_(width), position_(0, 0) {
+  window_thread_ = new std::thread(&Window::MainLoop, this);
+}
+Window::Window(const Coord &position, int width, int height)
+    : height_(height), width_(width), position_(position) {
+  window_thread_ = new std::thread(&Window::MainLoop, this);
 }
 
 Slicer Window::PopFrame() {
-  Slicer new_frame(width_,height_);
   const std::lock_guard<std::mutex> kLock(event_queue_mutex_);
-  new_frame = frame_queue_.front();
+  Slicer new_frame = frame_queue_.front();
   frame_queue_.pop();
 
   return new_frame;
 }
 
 void Window::PushFrame(const Slicer &new_frame) {
-
-  while (GetQueueSize() > 80) std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
+  while (GetQueueSize() > 80)
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
   const std::lock_guard<std::mutex> kLock(event_queue_mutex_);
   frame_queue_.push(new_frame);
 }
@@ -74,7 +77,8 @@ int Window::GetQueueSize() {
 }
 
 Window &Window::operator=(const Window &other) {
-  if (this == &other) return *this;
+  if (this == &other)
+    return *this;
   width_ = other.width_;
   height_ = other.height_;
   current_window_title_ = other.current_window_title_;

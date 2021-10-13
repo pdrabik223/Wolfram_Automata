@@ -4,19 +4,18 @@
 
 #include "Automata/wolfram_automata.h"
 #include <iostream>
-
+#include "sfml_window/window.h"
 int main() {
-  AutomataInfo first(90);
-  DisplayRule(first);
-  Slice slice(80);
-  slice[40] = ON;
+  AutomataInfo first(30);
+  Slice slice(1920);
+  slice[1920/2] = ON;
 
-  for (int i = 0; i < 40; i++) {
-    ConsoleDisplay(slice);
+  Window screen(1920 ,1080);
+
+  for (int i = 0; i < 1080; i++) {
+    screen.PushFrame(Slicer(slice));
     slice.GenerateSuccessor(first);
   }
-
-
 
   system("pause");
   return 0;

@@ -18,7 +18,7 @@ class Window {
   Window() = delete;
   Window(int width, int height);
   Window(const Coord &position, int width, int height);
-  Window(const Window &other);;
+  Window(const Window &other);
   Window &operator=(const Window &other);;
   Slicer PopFrame();
   void PushFrame(const Slicer &new_frame);
@@ -31,9 +31,10 @@ class Window {
   void MainLoop();
 
  protected:
+   std::thread* window_thread_;
   int width_;
   int height_;
-  unsigned no_frame_;
+  unsigned no_frame_ = 0;
 
   std::string current_window_title_ = "Wolfram's Automata";
 
