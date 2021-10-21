@@ -16,10 +16,10 @@ void Settings::MainLoop() {
       return;
     case RUN_AUTOMATA:
 
-      for (int i = 0; i < 1080; i++) {
-        screen.PushFrame(Slicer(slice));
-        slice.GenerateSuccessor(first);
-      }
+//      for (int i = 0; i < 1080; i++) {
+//        screen.PushFrame(Slicer(slice));
+//        slice.GenerateSuccessor(first);
+//      }
       break;
     case REFRESH_SCREEN:
       break;
@@ -35,8 +35,8 @@ Settings::Action Settings::Decode(std::string &message) {
       if (commands_[i] == message.substr(0, commands_[i].size()))
         break;
   }
-  if (i == commands_.size())
-    return;
+//  if (i == commands_.size())
+//    return;
 
   message = message.substr(0, commands_[i].size());
 
@@ -91,4 +91,5 @@ Settings::Action Settings::Decode(std::string &message) {
     DisplayRule(automata_info_);
     break;
   }
+return RUN_AUTOMATA;
 }

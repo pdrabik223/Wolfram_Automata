@@ -35,6 +35,8 @@ public:
     delete window_thread_;
   }
 
+void Clear();
+
 protected:
   std::thread *window_thread_;
   int width_;

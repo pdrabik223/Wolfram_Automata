@@ -13,7 +13,7 @@ void Window::MainLoop() {
   settings.antialiasingLevel = 8;
 
   sf::RenderWindow window(sf::VideoMode(width_, height_), "Wolfram's Automata",
-                          sf::Style::Default, settings);
+                          sf::Style::Fullscreen, settings);
   window.clear(sf::Color::White);
   window.setPosition(sf::Vector2i(position_.x, position_.y));
   sf::Clock clock;
@@ -70,8 +70,8 @@ Slicer Window::PopFrame() {
 }
 
 void Window::PushFrame(const Slicer &new_frame) {
-  while (GetQueueSize() > 80)
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+//  while (GetQueueSize() > 80)
+//    std::this_thread::sleep_for(std::chrono::milliseconds(300));
   const std::lock_guard<std::mutex> kLock(event_queue_mutex_);
   frame_queue_.push(new_frame);
 }
@@ -96,4 +96,7 @@ Window::Window(const Window &other) {
   current_window_title_ = other.current_window_title_;
   event_ = other.event_;
   frame_queue_ = other.frame_queue_;
+}
+void Window::Clear() {
+  no_frame_ = 0;
 }

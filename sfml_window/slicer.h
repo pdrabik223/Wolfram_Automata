@@ -4,7 +4,7 @@
 
 #ifndef WOLFRAM_AUTOMATA_SFML_WINDOW_SLICER_H_
 #define WOLFRAM_AUTOMATA_SFML_WINDOW_SLICER_H_
-
+#include <corecrt_math.h>
 #include "../Automata/wolfram_automata.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
