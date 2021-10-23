@@ -4,6 +4,7 @@
 
 #include "slicer.h"
 
+
 sf::Color Rainbow(float value, float max_value) {
 
   int witch_third = value / (max_value / 3.0);
@@ -49,7 +50,7 @@ void Slicer::DrawToWindow(sf::RenderWindow &window, unsigned int no_frame) {
   for (int i = 0; i < slice_.GetWidth(); i++) {
     cell.setPosition(i * cell_size, placement.y);
 
-    cell.setFillColor(slice_[i] == ON ? Rainbow(placement.y, window.getSize().y)
+    cell.setFillColor(slice_.Get(i) ? Rainbow(placement.y, window.getSize().y)
                                       : sf::Color(40,40,40));
     window.draw(cell);
   }

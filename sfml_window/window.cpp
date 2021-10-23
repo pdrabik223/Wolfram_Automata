@@ -45,6 +45,7 @@ void Window::MainLoop() {
       PopFrame().DrawToWindow(window, no_frame_++);
       window.display();
     }
+    else std::this_thread::sleep_for(std::chrono::milliseconds(250));
     //
     //    if (clock.getElapsedTime().asMilliseconds() < 150)
     //      continue;

@@ -27,31 +27,36 @@ void AutomataInfo::DecimalToBinary(int n) {
 
 Slice Slice::GenerateSuccessor(const AutomataInfo &rule) {
   std::vector<State> copy_data(width_);
+  Slice buffer(width_);
+
   // edges
   switch (rule.boundary_conditions) {
   case AutomataInfo::BoundaryConditions::INHERITANCE:
-    copy_data[0] = data_[0];
-    copy_data.back() = data_.back();
+    buffer.Set(0, Get(0));
+    buffer.Set(width_ - 1, Get(width_ - 1));
     break;
+
   case AutomataInfo::BoundaryConditions::LOOP_AROUND:
-    copy_data[0] = rule.ApplyRule(data_.back(), data_[0], data_[1]);
-    copy_data.back() =
-        rule.ApplyRule(data_[width_ - 2], data_.back(), data_[0]);
+    buffer.Set(0, rule.ApplyRule(Get(width_ - 1), Get(0), Get(1)));
+    buffer.Set(width_ - 1,
+               rule.ApplyRule(Get(width_ - 2), Get(width_ - 1), Get(0)));
     break;
   }
 
   for (int i = 1; i < width_ - 1; i++)
-    copy_data[i] = rule.ApplyRule(data_[i - 1], data_[i], data_[i + 1]);
+    buffer.Set(i, rule.ApplyRule(Get(i - 1), Get(i), Get(i + 1)));
 
-  data_ = copy_data;
+  *this = buffer;
+
   return *this;
 }
+
 void Slice::FillRandom(const float &random_infill) {
-  for (auto &d : data_)
+  for (int i = 0; i < width_; i++)
     if (rand() % 100 < random_infill)
-      d = ON;
+      Set(i, true);
     else
-      d = OFF;
+      Set(i, false);
 }
 void Slice::Fill(State filler) {
   for (auto &d : data_) {
@@ -60,7 +65,7 @@ void Slice::Fill(State filler) {
 }
 void Slice::SetWidth(unsigned int width) {
   width_ = width;
-  data_.resize(width);
+  data_.resize(width/CHUNK);
 }
 bool Slice::operator==(const Slice &rhs) const {
   return width_ == rhs.width_ && data_ == rhs.data_;

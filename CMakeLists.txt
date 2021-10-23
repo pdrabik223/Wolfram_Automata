@@ -4,7 +4,7 @@ project(Wolfram_Automata)
 set(CMAKE_CXX_STANDARD 14)
 
 set(automata_dir Automata/wolfram_automata.h Automata/wolfram_automata.cpp
-        settings.h settings.cpp)
+        )
 
 
 set(sfml_dir
