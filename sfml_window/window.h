@@ -30,7 +30,8 @@ public:
 
   /// main window loop
   void MainLoop();
-;  ~Window() {
+
+  ~Window() {
     window_thread_->join();
     delete window_thread_;
   }

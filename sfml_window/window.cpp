@@ -13,7 +13,7 @@ void Window::MainLoop() {
   settings.antialiasingLevel = 8;
 
   sf::RenderWindow window(sf::VideoMode(width_, height_), "Wolfram's Automata",
-                          sf::Style::Fullscreen, settings);
+                          sf::Style::Default, settings);
   window.clear(sf::Color::White);
   window.setPosition(sf::Vector2i(position_.x, position_.y));
   sf::Clock clock;

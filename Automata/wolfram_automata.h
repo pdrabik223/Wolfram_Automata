@@ -8,10 +8,7 @@
 #include <ciso646>
 #include <vector>
 
-enum State{
-  OFF,
-  ON
-};
+enum State { OFF, ON };
 struct AutomataInfo {
   AutomataInfo(int rule);
   void SetRule(int rule);
@@ -25,30 +22,34 @@ struct AutomataInfo {
     return rule_matrix[(int)a][(int)x][(int)b];
   };
   void DecimalToBinary(int n);
-  int ComputeClass() const {return 0;};
+  int ComputeClass() const { return 0; };
 };
-  static void DisplayRule(const AutomataInfo& info){
-    printf( "rule: %d class: \n",info.rule_dec,info.ComputeClass());
-    printf("000 -> %d \n", (int)info.rule_matrix[0][0][0]);
-    printf("001 -> %d \n", (int)info.rule_matrix[0][0][1]);
-    printf("010 -> %d \n", (int)info.rule_matrix[0][1][0]);
-    printf("011 -> %d \n", (int)info.rule_matrix[0][1][1]);
-    printf("100 -> %d \n", (int)info.rule_matrix[1][0][0]);
-    printf("101 -> %d \n", (int)info.rule_matrix[1][0][1]);
-    printf("110 -> %d \n", (int)info.rule_matrix[1][1][0]);
-    printf("111 -> %d \n", (int)info.rule_matrix[1][1][1]);
-  }
+static void DisplayRule(const AutomataInfo &info) {
+  printf("rule: %d class: \n", info.rule_dec, info.ComputeClass());
+  printf("000 -> %d \n", (int)info.rule_matrix[0][0][0]);
+  printf("001 -> %d \n", (int)info.rule_matrix[0][0][1]);
+  printf("010 -> %d \n", (int)info.rule_matrix[0][1][0]);
+  printf("011 -> %d \n", (int)info.rule_matrix[0][1][1]);
+  printf("100 -> %d \n", (int)info.rule_matrix[1][0][0]);
+  printf("101 -> %d \n", (int)info.rule_matrix[1][0][1]);
+  printf("110 -> %d \n", (int)info.rule_matrix[1][1][0]);
+  printf("111 -> %d \n", (int)info.rule_matrix[1][1][1]);
+}
 
 class Slice {
 public:
 
+  Slice():width_(0){};
   Slice(unsigned width) : width_(width) {
     if (width < 3)
       throw "your size is to small";
     data_.reserve(width);
-    for(int i = 0 ;i < width;i++)
+    for (int i = 0; i < width; i++)
       data_.push_back(OFF);
   };
+
+  bool operator==(const Slice &rhs) const;
+  bool operator!=(const Slice &rhs) const;
   void SetWidth(unsigned int width);
   Slice(const Slice &other) = default;
   Slice &operator=(const Slice &other) = default;
@@ -65,7 +66,6 @@ protected:
   unsigned width_;
   std::vector<State> data_;
 };
-
 
 // todo make iterator for slice class
 static void ConsoleDisplay(const Slice &slice) {

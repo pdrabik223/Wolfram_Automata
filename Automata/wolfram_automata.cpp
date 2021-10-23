@@ -62,3 +62,7 @@ void Slice::SetWidth(unsigned int width) {
   width_ = width;
   data_.resize(width);
 }
+bool Slice::operator==(const Slice &rhs) const {
+  return width_ == rhs.width_ && data_ == rhs.data_;
+}
+bool Slice::operator!=(const Slice &rhs) const { return !(rhs == *this); }
