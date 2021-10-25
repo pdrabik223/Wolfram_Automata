@@ -43,9 +43,6 @@ static void DisplayRule(const AutomataInfo &info) {
 
 #define CHUNK 32
 class Slice {
-
-
-
 public:
   Slice() : width_(0){};
   Slice(unsigned width) : width_(width) {
