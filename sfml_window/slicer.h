@@ -8,6 +8,9 @@
 #include "../Automata/wolfram_automata.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#define PROFESSIONAL_LOOK true
+#define GRAY sf::Color(29,29,29)
+#define CYAN sf::Color(0,255,255)
 class Slicer {
 public:
   Slicer() = delete;
@@ -17,9 +20,9 @@ public:
 
   void DrawToWindow(sf::RenderWindow &window, unsigned no_frame);
 
+  static bool professional_look_;
 protected:
   Slice slice_;
-
 };
 
 #endif // WOLFRAM_AUTOMATA_SFML_WINDOW_SLICER_H_

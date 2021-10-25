@@ -7,8 +7,9 @@
 #include "sfml_window/window.h"
 #include <array>
 #include <iostream>
-#define HEIGHT 800
-#define WIDTH 800
+#define HEIGHT 1000
+#define WIDTH 1000
+void WolframSlice();
 std::pair<int, int> AnalyzeFrame(const std::vector<Slice> &whole_frame);
 void WolframAnimation(unsigned screen_height, unsigned screen_width);
 int main() {
@@ -27,10 +28,28 @@ int main() {
   // model Ising'a ?
   // i wymyśl taki co jest w kategori inne
 
-  WolframAnimation(WIDTH, HEIGHT);
+    WolframAnimation(WIDTH, HEIGHT);
 
   return 0;
 }
+
+void WolframSlice(){
+  Window screen( 1000,1000);
+  AutomataInfo first(90);
+
+  Slice slice(WIDTH);
+
+  //  slice.Fill(OFF);
+  slice.Set(WIDTH/2,ON);
+  screen.Clear();
+
+  for (int h = 0; h < HEIGHT; h++) {
+    screen.PushFrame(Slicer(slice));
+    slice.GenerateSuccessor(first);
+  }
+
+}
+
 void WolframAnimation(unsigned screen_height, unsigned screen_width) {
 
   Window screen(screen_height, screen_width);
@@ -85,3 +104,4 @@ std::pair<int, int> AnalyzeFrame(const std::vector<Slice> &whole_frame) {
 
   return /* idk */ {3, 0};
 }
+

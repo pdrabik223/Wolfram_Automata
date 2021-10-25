@@ -10,7 +10,6 @@ set(automata_dir Automata/wolfram_automata.h Automata/wolfram_automata.cpp
 set(sfml_dir
         sfml_window/window.h sfml_window/window.cpp
         sfml_window/coord.h sfml_window/coord.cpp
-        sfml_window/color_scheme.h sfml_window/color_scheme.cpp
         sfml_window/slicer.h sfml_window/slicer.cpp
        )
 

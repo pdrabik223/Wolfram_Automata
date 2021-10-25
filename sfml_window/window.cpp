@@ -7,13 +7,12 @@
 #include <SFML/Window/ContextSettings.hpp>
 #include <iostream>
 
-
 void Window::MainLoop() {
   sf::ContextSettings settings;
   settings.antialiasingLevel = 8;
 
   sf::RenderWindow window(sf::VideoMode(width_, height_), "Wolfram's Automata",
-                          sf::Style::Default, settings);
+                          sf::Style::Close | sf::Style::Titlebar, settings);
   window.clear(sf::Color::White);
   window.setPosition(sf::Vector2i(position_.x, position_.y));
   sf::Clock clock;
@@ -44,8 +43,8 @@ void Window::MainLoop() {
     if (GetQueueSize() != 0) {
       PopFrame().DrawToWindow(window, no_frame_++);
       window.display();
-    }
-    else std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    } else
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
     //
     //    if (clock.getElapsedTime().asMilliseconds() < 150)
     //      continue;
@@ -71,8 +70,8 @@ Slicer Window::PopFrame() {
 }
 
 void Window::PushFrame(const Slicer &new_frame) {
-//  while (GetQueueSize() > 80)
-//    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+  //  while (GetQueueSize() > 80)
+  //    std::this_thread::sleep_for(std::chrono::milliseconds(300));
   const std::lock_guard<std::mutex> kLock(event_queue_mutex_);
   frame_queue_.push(new_frame);
 }
@@ -98,6 +97,4 @@ Window::Window(const Window &other) {
   event_ = other.event_;
   frame_queue_ = other.frame_queue_;
 }
-void Window::Clear() {
-  no_frame_ = 0;
-}
+void Window::Clear() { no_frame_ = 0; }
