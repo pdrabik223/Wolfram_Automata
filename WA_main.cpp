@@ -8,19 +8,19 @@
 #include <array>
 #include <fstream>
 #include <iostream>
-#define WIDTH 800
-#define HEIGHT 800
+
+/// the width of automata
+#define WIDTH 90
+/// the height of automata
+#define HEIGHT 90
 void WolframSlice();
 std::pair<int, int>
 AnalyzeFrameBruteForce(const std::vector<Slice> &whole_frame);
 void WolframAnimation(unsigned screen_height, unsigned screen_width);
-using Frame = std::vector<Slice>;
 void SaveToRoot();
+using Frame = std::vector<Slice>;
 int main() {
   srand(time(NULL));
-  //
-
-  // the question:
 
   // piotr: 3
   // mateusz: 7
@@ -29,13 +29,11 @@ int main() {
   // so every rule that %13 == 3 is mine
   // exercise 1
 
-  // model Ising'a ?
-  // i wymyśl taki co jest w kategori inne
-
-//  WolframAnimation(WIDTH, HEIGHT);
+  //  WolframAnimation(WIDTH, HEIGHT);
 
   WolframSlice();
 
+  getch();
   //  SaveToRoot();
   return 0;
 }
@@ -70,18 +68,20 @@ void SaveToRoot() {
   f.close();
 }
 void WolframSlice() {
-  Window screen(WIDTH, HEIGHT);
+  //  Window screen(WIDTH, HEIGHT);
 
-  AutomataInfo first(152);
+  AutomataInfo first(90);
   Slice slice(WIDTH);
 
-  slice.FillRandom(50);
-  //  slice.Set(WIDTH/2,ON);
+  //  slice.FillRandom(50);
+  slice.Set(WIDTH / 2, ON);
 
-  DisplayRule(first);
+  //  DisplayRule(first);
+  ConsoleDisplay(slice);
 
   for (int h = 0; h < HEIGHT; h++) {
-    screen.PushFrame(Slicer(slice));
+    //    screen.PushFrame(Slicer(slice));
+    ConsoleDisplay(slice);
     slice.GenerateSuccessor(first);
   }
 }
