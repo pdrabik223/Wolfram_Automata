@@ -10,15 +10,16 @@
 #include <iostream>
 
 /// the width of automata
-#define WIDTH 90
+#define WIDTH 900
 /// the height of automata
-#define HEIGHT 90
+#define HEIGHT 900
 void WolframSlice();
-std::pair<int, int>
-AnalyzeFrameBruteForce(const std::vector<Slice> &whole_frame);
-void WolframAnimation(unsigned screen_height, unsigned screen_width);
 void SaveToRoot();
 using Frame = std::vector<Slice>;
+void SaveFrame(const Frame &data, const std::string &path);
+
+/// deadline 7 listopada 23:59
+
 int main() {
   srand(time(NULL));
 
@@ -29,11 +30,8 @@ int main() {
   // so every rule that %13 == 3 is mine
   // exercise 1
 
-  //  WolframAnimation(WIDTH, HEIGHT);
+//  WolframSlice();
 
-  WolframSlice();
-
-  getch();
   //  SaveToRoot();
   return 0;
 }
@@ -68,7 +66,7 @@ void SaveToRoot() {
   f.close();
 }
 void WolframSlice() {
-  //  Window screen(WIDTH, HEIGHT);
+  //    Window screen(WIDTH, HEIGHT);
 
   AutomataInfo first(90);
   Slice slice(WIDTH);
@@ -78,71 +76,44 @@ void WolframSlice() {
 
   //  DisplayRule(first);
   ConsoleDisplay(slice);
+  Frame frame;
 
-  for (int h = 0; h < HEIGHT; h++) {
-    //    screen.PushFrame(Slicer(slice));
-    ConsoleDisplay(slice);
+  std::ofstream f("C:\\Users\\piotr\\Documents\\Wolfram_Automata\\data1.txt",
+                  std::ios::out);
+  for (int h = 1; h <= HEIGHT; h++) {
+    //        screen.PushFrame(Slicer(slice));
+    //    ConsoleDisplay(slice);
+    unsigned average = 0;
+
+    for (int i = 0; i < slice.GetWidth(); ++i)
+      if (slice.Get(i))
+        average++;
+
+    f << average;
+    if (h < HEIGHT)
+      f << " ";
     slice.GenerateSuccessor(first);
   }
+  f.close();
+
+  //  SaveFrame(frame,
+  //  "C:\\Users\\piotr\\Documents\\Wolfram_Automata\\data1.txt");
 }
 
-void WolframAnimation(unsigned screen_height, unsigned screen_width) {
 
-  Window screen(screen_height, screen_width);
 
-  for (int i = 0; i < 255; i += 1) {
+void SaveFrame(const Frame &data, const std::string &path) {
 
-    AutomataInfo first(i);
+  std::ofstream f(path, std::ios::out);
 
-    Slice slice(WIDTH);
+  f << data.size() << ' ' << data[0].GetWidth() << "\n";
 
-    slice.FillRandom(10);
-    screen.Clear();
-    std::vector<Slice> whole_frame;
-    whole_frame.reserve(HEIGHT);
-
-    for (int h = 0; h < HEIGHT; h++) {
-      screen.PushFrame(Slicer(slice));
-      whole_frame.push_back(slice);
-      slice.GenerateSuccessor(first);
+  for (int i = 0; i < data.size(); i++) {
+    for (int j = 0; j < data[i].GetWidth(); j++) {
+      f << (int)data[i][j];
+      if (i < data.size() - 2)
+        f << " ";
     }
-    DisplayRule(first);
-
-    printf("this one is category: %d with repetition circle every %d. \n\n",
-           AnalyzeFrameBruteForce(whole_frame).first,
-           AnalyzeFrameBruteForce(whole_frame).second);
-
-    while (screen.GetQueueSize() != 0) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(250));
-    }
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-    whole_frame.clear();
-
-    //    char key;
-    getch();
   }
-}
-
-/// 1st class rules that generate stable image for example 204
-/// 2nd class cyclic they have repetitive pattern for example 6
-/// 3rd class exploding, for example 90
-/// 4 leftovers lol
-/// first val -> witch class it's grouped to
-/// second val -> how long is repetition circle
-std::pair<int, int>
-AnalyzeFrameBruteForce(const std::vector<Slice> &whole_frame) {
-
-  if (whole_frame[whole_frame.size() - 1] ==
-      whole_frame[whole_frame.size() - 2])
-    return {1, 1};
-
-  int k = 1;
-  for (int i = whole_frame.size() - 2; i >= 0; --i) {
-    if (whole_frame[whole_frame.size() - 1] == whole_frame[i])
-      return {2, k};
-    else
-      ++k;
-  }
-  return /* idk */ {3, 0};
+  f.close();
 }
