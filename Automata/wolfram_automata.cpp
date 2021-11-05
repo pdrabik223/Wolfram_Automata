@@ -65,9 +65,16 @@ void Slice::Fill(State filler) {
 }
 void Slice::SetWidth(unsigned int width) {
   width_ = width;
-  data_.resize(width/CHUNK);
+  data_.resize(width / CHUNK);
 }
 bool Slice::operator==(const Slice &rhs) const {
   return width_ == rhs.width_ && data_ == rhs.data_;
 }
 bool Slice::operator!=(const Slice &rhs) const { return !(rhs == *this); }
+
+void Slice::Fill(int filler) {
+
+  for (int i = 0; i < width_; i++)
+    Set(i, filler bitand 1 << i);
+
+}

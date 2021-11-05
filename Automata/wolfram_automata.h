@@ -74,6 +74,7 @@ public:
 
   void FillRandom(const float &random_infill);
   void Fill(State filler);
+  void Fill(int filler);
 
   void Set(unsigned position, bool state) {
 
