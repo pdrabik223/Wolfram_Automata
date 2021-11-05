@@ -21,11 +21,17 @@ add_executable(animation wolfram_animation.cpp
         ${automata_dir}
         ${sfml_dir}
         )
+add_executable(root wolfram_root.cpp
+        ${automata_dir}
+        ${sfml_dir}
+        )
 
-
+add_executable(benchmarks Benchmarks/benchmarks.cpp
+        ${automata_dir}
+        )
 add_subdirectory(sfml)
 
-set(executables Wolfram_Automata animation)
+set(executables Wolfram_Automata animation root)
 
 foreach(executable IN LISTS executables)
     target_include_directories(${executable}
