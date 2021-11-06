@@ -23,25 +23,26 @@ int main() {
   srand(time(NULL));
   int k = 0;
 
-  // WW for 1 and 2
-  for (int i = 3; i < 255; i += 13) {
-    std::string file_path =
-        "../Benchmarks/BenchmarkForRandom/rule_" + std::to_string(i) + ".txt";
-
-    std::vector<unsigned> cycle_lengths(BenchmarkForRandom(i).second);
-
-    std::fstream file(file_path, std::ios::out);
-
-    for (auto u : cycle_lengths)
-      file << u << ' ';
-
-    file.close();
-
-    printf("benchmark nr:%d / %d \n", ++k, 252 / 13);
-  }
-
-  for (int i = 3; i < 255; i += 13) {
-    std::string file_path = "../Benchmarks/BenchmarkForPermutations/rule_" +
+  //  // WW for 1 and 2
+  //  for (int i = 3; i < 255; i += 13) {
+  //    std::string file_path =
+  //        "../Benchmarks/BenchmarkForRandom/rule_" + std::to_string(i) +
+  //        ".txt";
+  //
+  //    std::vector<unsigned> cycle_lengths(BenchmarkForRandom(i).second);
+  //
+  //    std::fstream file(file_path, std::ios::out);
+  //
+  //    for (auto u : cycle_lengths)
+  //      file << u << ' ';
+  //
+  //    file.close();
+  //
+  //    printf("benchmark nr:%d / %d \n", ++k, 250 / 20);
+  //  }
+  k = 0;
+  for (int i = 0; i < 255; i += 1) {
+    std::string file_path = "../Benchmarks/BenchmarkForPermutations/all/rule_" +
                             std::to_string(i) + ".txt";
 
     std::vector<unsigned> cycle_lengths(BenchmarkForPermutations(i).second);
@@ -53,18 +54,19 @@ int main() {
 
     file.close();
 
-    printf("benchmark nr:%d / %d \n", ++k, 252 / 13);
+    printf("benchmark nr:%d / %d \n", ++k, 20);
   }
-
+  system("pause");
   return 0;
 }
 
 int MainLoop(AutomataInfo rule, const Slice &seed) {
 
   const unsigned kHeight = seed.GetWidth() * 1 << 2;
-  const unsigned kIgnored = seed.GetWidth();
+  const unsigned kIgnored = seed.GetWidth() * 4;
 
   Slice slice(seed);
+
   for (int i = 0; i < kIgnored; i++)
     slice.GenerateSuccessor(rule);
 
@@ -104,17 +106,18 @@ BenchmarkForPermutations(AutomataInfo rule) {
 
   cycle_lengths.reserve(kSampleRange);
 
-  for (int i = 0; i < kSampleRange; i++) {
+  for (int j = 3; j < pow(2, kSampleRange); j++) {
+    Slice seed(kSampleRange);
+    seed.Fill(j);
 
-    for (int j = 0; j < pow(2, kSampleRange); j++) {
-      Slice seed(kSampleRange);
-      seed.Fill(j);
+    unsigned length = MainLoop(rule, seed);
 
-      unsigned length = MainLoop(rule, seed);
+    if (std::find(cycle_lengths.begin(), cycle_lengths.end(), length) ==
+        cycle_lengths.end()) {
 
-      if (std::find(cycle_lengths.begin(), cycle_lengths.end(), length) ==
-          cycle_lengths.end())
-        cycle_lengths.push_back(length);
+      cycle_lengths.push_back(length);
+//      printf("new cycle length for rule %d discovered! seed : %d cycle length: %d\n",
+//             rule.rule_dec, j,length);
     }
   }
 
