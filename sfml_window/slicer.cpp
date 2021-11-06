@@ -56,3 +56,34 @@ void Slicer::DrawToWindow(sf::RenderWindow &window, unsigned int no_frame) {
     window.draw(cell);
   }
 }
+
+
+
+/// saves frame a.k.a. std::vector<Slice> to file
+/// using sfml Image
+/// and this is funktor coz Idk I guess yes
+
+ void SaveToFile(const std::string &path, std::vector<Slice> frame,
+                unsigned width, unsigned height, bool use_rainbow) {
+
+  float cell_size = width / frame.begin()->GetWidth();
+
+  sf::Image image;
+  image.create(width, height, sf::Color::Black);
+
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; ++x) {
+
+      if (frame[y / cell_size].Get(x / cell_size))
+        if (use_rainbow)
+          image.setPixel(x, y,  Rainbow(y,height));
+        else
+          image.setPixel(x, y, sf::Color::White);
+      else {
+
+        image.setPixel(x, y, OFF_COLOR);
+      }
+    }
+  }
+  image.saveToFile(path);
+}

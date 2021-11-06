@@ -11,6 +11,12 @@
 #define PROFESSIONAL_LOOK true
 #define GRAY sf::Color(29,29,29)
 #define CYAN sf::Color(0,255,255)
+#define OFF_COLOR sf::Color::Transparent
+
+
+sf::Color Rainbow(float value, float max_value);
+void SaveToFile(const std::string &path, std::vector<Slice> frame,
+                unsigned width, unsigned height, bool use_rainbow);
 class Slicer {
 public:
   Slicer() = delete;
@@ -24,5 +30,6 @@ public:
 protected:
   Slice slice_;
 };
+
 
 #endif // WOLFRAM_AUTOMATA_SFML_WINDOW_SLICER_H_
