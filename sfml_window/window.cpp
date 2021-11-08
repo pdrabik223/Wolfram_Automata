@@ -98,3 +98,4 @@ Window::Window(const Window &other) {
   frame_queue_ = other.frame_queue_;
 }
 void Window::Clear() { no_frame_ = 0; }
+

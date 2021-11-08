@@ -72,9 +72,8 @@ bool Slice::operator==(const Slice &rhs) const {
 }
 bool Slice::operator!=(const Slice &rhs) const { return !(rhs == *this); }
 
-void Slice::Fill(int filler) {
+void Slice::Fill(uint64_t filler) {
 
-  for (int i = 0; i < width_; i++)
-    Set(i, filler bitand 1 << i);
+	data_.front() = filler;
 
 }

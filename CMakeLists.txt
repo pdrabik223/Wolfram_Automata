@@ -30,6 +30,11 @@ add_executable(root wolfram_root.cpp
 add_executable(benchmarks Benchmarks/benchmarks.cpp
         ${automata_dir}
         )
+
+add_executable(wng WNG/kinda_random_number_generator.cpp
+        ${automata_dir}
+        )
+add_executable(final wolfram_1d_automata_console.cpp)
 add_subdirectory(sfml)
 
 set(executables Wolfram_Automata animation root)

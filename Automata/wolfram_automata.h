@@ -41,7 +41,7 @@ static void DisplayRule(const AutomataInfo &info) {
   printf("111 -> %d \n", (int)info.rule_matrix[1][1][1]);
 }
 
-#define CHUNK 32
+#define CHUNK 64
 class Slice {
 public:
   Slice() : width_(0){};
@@ -49,11 +49,12 @@ public:
     if (width < 3)
       throw "your size is to small";
     width = width / CHUNK;
+
     if (width_ % CHUNK != 0)
       width++;
 
     data_.reserve(width);
-    for (int i = 0; i < width; i++)
+    for (uint64_t i = 0l; i < width; i++)
       data_.push_back(0);
   };
 
@@ -72,28 +73,31 @@ public:
       return OFF;
   }
 
+   explicit operator uint64_t(){return data_.front();}
+
   void FillRandom(const float &random_infill);
   void Fill(State filler);
-  void Fill(int filler);
+  void Fill(uint64_t filler);
 
   void Set(unsigned position, bool state) {
 
-    if (state)
-      data_[position / CHUNK] = data_[position / CHUNK] bitor 1 << position % CHUNK;
-    else
+    if (state) {
+
+      data_[position / CHUNK] = data_[position / CHUNK] bitor (uint64_t)pow(2,position % CHUNK);
+    }else
       data_[position / CHUNK] =
-          data_[position / CHUNK] bitand INT64_MAX - (1 << position % CHUNK);
+          data_[position / CHUNK] bitand UINT64_MAX - (uint64_t)pow(2,position % CHUNK);
   }
 
   void Set(unsigned position, State state) { Set(position, state == ON); }
 
   bool Get(unsigned position) const {
-    return data_[position / CHUNK] bitand 1 << position % CHUNK;
+    return data_[position / CHUNK] bitand (uint64_t)pow(2,position % CHUNK);
   }
 
 protected:
   unsigned width_;
-  std::vector<uint32_t> data_;
+  std::vector<uint64_t> data_;
 };
 
 // todo make iterator for slice class

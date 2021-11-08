@@ -17,7 +17,8 @@ void WolframSlice();
 void SaveToRoot();
 using Frame = std::vector<Slice>;
 void SaveFrame(const Frame &data, const std::string &path);
-
+void SaveChangesInWeight(int rule, const int frame_height,
+                         const int frame_width);
 /// deadline 7 listopada 23:59
 
 int main() {
@@ -30,59 +31,24 @@ int main() {
   // so every rule that %13 == 3 is mine
   // exercise 1
 
-//  WolframSlice();
-
-  //  SaveToRoot();
+//  SaveChangesInWeight(90,1000,1000);
   return 0;
 }
-void SaveToRoot() {
+void SaveWeightsToFile() {
 
   AutomataInfo first(90);
-
   Slice slice(WIDTH);
 
   //  slice.FillRandom(50);
   slice.Set(WIDTH / 2, ON);
 
   DisplayRule(first);
-
-  Frame frame;
-  frame.reserve(HEIGHT);
-  for (int h = 0; h < HEIGHT; h++) {
-    frame.push_back(slice);
-    slice.GenerateSuccessor(first);
-  }
-
-  std::ofstream f("C:\\Users\\piotr\\Documents\\Wolfram_Automata\\picture.txt",
-                  std::ios::out);
-  f << frame.size() << ' ';
-  f << frame.begin()->GetWidth() << ' ';
-
-  for (auto &s : frame) {
-    for (int i = 0; i < s.GetWidth(); i++) {
-      f << s.Get(i) << ' ';
-    }
-  }
-  f.close();
-}
-void WolframSlice() {
-  //    Window screen(WIDTH, HEIGHT);
-
-  AutomataInfo first(90);
-  Slice slice(WIDTH);
-
-  //  slice.FillRandom(50);
-  slice.Set(WIDTH / 2, ON);
-
-  //  DisplayRule(first);
   ConsoleDisplay(slice);
   Frame frame;
 
-  std::ofstream f("C:\\Users\\piotr\\Documents\\Wolfram_Automata\\data1.txt",
+  std::ofstream f("C:\\Users\\piotr\\Documents\\Wolfram_Automata\\weights.txt",
                   std::ios::out);
   for (int h = 1; h <= HEIGHT; h++) {
-    //        screen.PushFrame(Slicer(slice));
-    //    ConsoleDisplay(slice);
     unsigned average = 0;
 
     for (int i = 0; i < slice.GetWidth(); ++i)
@@ -95,25 +61,37 @@ void WolframSlice() {
     slice.GenerateSuccessor(first);
   }
   f.close();
-
-  //  SaveFrame(frame,
-  //  "C:\\Users\\piotr\\Documents\\Wolfram_Automata\\data1.txt");
 }
+void SaveChangesInWeight(int rule, const int frame_height,
+                         const int frame_width) {
+  AutomataInfo first(rule);
+  Slice slice(frame_width);
 
+  //  slice.FillRandom(50);
+  slice.Set(frame_width / 2, ON);
 
+  DisplayRule(first);
+  ConsoleDisplay(slice);
+  Frame frame;
 
-void SaveFrame(const Frame &data, const std::string &path) {
+  std::ofstream f("C:\\Users\\piotr\\Documents\\Wolfram_Automata\\changes_in_weights_" +
+                      std::to_string(rule) + "_middle_on" + ".txt",
+                  std::ios::out);
+  int prev_average = 0;
 
-  std::ofstream f(path, std::ios::out);
+  for (int h = 1; h <= frame_height; h++) {
+    int average = 0;
+    for (int i = 0; i < slice.GetWidth(); ++i)
 
-  f << data.size() << ' ' << data[0].GetWidth() << "\n";
+      if (slice.Get(i))
+        average++;
 
-  for (int i = 0; i < data.size(); i++) {
-    for (int j = 0; j < data[i].GetWidth(); j++) {
-      f << (int)data[i][j];
-      if (i < data.size() - 2)
-        f << " ";
-    }
+    f << prev_average - average;
+    if (h < frame_height)
+      f << " ";
+    prev_average = average;
+
+    slice.GenerateSuccessor(first);
   }
   f.close();
 }

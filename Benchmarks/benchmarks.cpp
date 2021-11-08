@@ -34,6 +34,9 @@ struct Test {
     return os;
   }
 };
+// https://en.wikipedia.org/wiki/Diehard_tests ?
+
+
 
 int main() {
   srand(time(NULL));

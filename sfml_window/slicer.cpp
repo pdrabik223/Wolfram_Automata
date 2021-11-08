@@ -69,19 +69,22 @@ void Slicer::DrawToWindow(sf::RenderWindow &window, unsigned int no_frame) {
   float cell_size = width / frame.begin()->GetWidth();
 
   sf::Image image;
-  image.create(width, height, sf::Color::Black);
+
+  int x_border = 5;
+  int y_border = 5;
+
+  image.create(width + x_border*2, height + y_border*2, sf::Color::Black);
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; ++x) {
 
       if (frame[y / cell_size].Get(x / cell_size))
         if (use_rainbow)
-          image.setPixel(x, y,  Rainbow(y,height));
+          image.setPixel(x + x_border, y + y_border,  Rainbow(y,height));
         else
-          image.setPixel(x, y, sf::Color::White);
+          image.setPixel(x + x_border, y + y_border, sf::Color::White);
       else {
-
-        image.setPixel(x, y, OFF_COLOR);
+        image.setPixel(x + x_border, y + y_border, sf::Color(195,195,195));
       }
     }
   }
