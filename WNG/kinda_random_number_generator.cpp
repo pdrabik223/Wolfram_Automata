@@ -73,7 +73,6 @@ std::vector<double> WNG(AutomataInfo rule) {
 
   generated_numbers.reserve(10000);
   for (int i = 0; i < 10000; i++) {
-
     generated_numbers.push_back(AutoWand(rule));
   }
   return generated_numbers;
