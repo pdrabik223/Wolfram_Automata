@@ -82,7 +82,7 @@ struct TestRandomness {
 int main() {
   srand(time(NULL));
 
-  std::cout<<"===cycle test===\n";
+  std::cout << "===cycle test===\n";
 
   std::vector<TestCycles> data;
 
@@ -99,10 +99,7 @@ int main() {
   }
   cycle_lengths.close();
 
-  std::fstream random_numbers("../Benchmarks/random_values.txt", std::ios::out);
-
-
-  std::cout<<"===randomness test===\n";
+  std::cout << "===randomness test===\n";
   for (int i = 3; i < 255; i += 13) {
 
     TestRandomness current;
@@ -112,13 +109,15 @@ int main() {
     Slice seed(500);
     seed.FillRandom(30);
 
-    for (int j = 0; j < 2000; j++) {
+    for (int j = 0; j < 1000; j++) {
       current.Push(Wand(i, seed));
     }
 
+    std::fstream random_numbers(
+        "../Benchmarks/wand/rule_" + std::to_string(i) + ".txt", std::ios::out);
     random_numbers << current << "\n";
+    random_numbers.close();
   }
-  random_numbers.close();
   return 0;
 }
 
